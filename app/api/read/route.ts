@@ -257,10 +257,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 1. Coba Microsoft Graph API terlebih dahulu (Cepat)
     let emails = await fetchViaGraphApi(accessToken);
 
-    // 2. Fallback ke IMAP XOAUTH2 jika Graph API kosong/ditolak
     if (!emails || emails.length === 0) {
       const imapEmails = await fetchViaImapXoauth2(email, accessToken);
       if (imapEmails) {

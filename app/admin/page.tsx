@@ -44,7 +44,6 @@ export default function AdminPage() {
     }, 1600);
   };
 
-  // Hydrate dari localStorage & sessionStorage
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem("omail_theme");
@@ -68,7 +67,6 @@ export default function AdminPage() {
     setHydrated(true);
   }, []);
 
-  // Simpan perubahan batch ke localStorage
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -76,7 +74,6 @@ export default function AdminPage() {
     } catch {}
   }, [batch, hydrated]);
 
-  // Simpan perubahan Password Canva
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -156,7 +153,7 @@ export default function AdminPage() {
   };
 
   const formatSellBlock = (item: ParsedOutlookAccount) => {
-    const pw = (canvaPwInput || DEFAULT_CANVA_PW).trim();
+    const pw = (item.canvaPw || canvaPwInput || DEFAULT_CANVA_PW).trim();
     return `${item.email}|${pw}\nAkses: ${item.rawCredential}`;
   };
 
@@ -280,7 +277,7 @@ export default function AdminPage() {
 
         <div style={{ marginBottom: 14 }}>
           <label className="am-hint">
-            Password Canva (untuk format Salin Semua):
+            Password Canva Default (jika belum ada di baris akun):
           </label>
           <input
             type="text"
@@ -292,8 +289,7 @@ export default function AdminPage() {
         </div>
 
         <label className="am-hint">
-          Paste banyak akun Outlook di sini (1 baris 1 akun, atau hasil Salin
-          Semua):
+          Paste hasil Create Akun / daftar akun Outlook di sini:
         </label>
         <textarea
           rows={4}
@@ -306,7 +302,7 @@ export default function AdminPage() {
             }
           }}
           placeholder={
-            "email1@outlook.com|pw|M.C531...|9e5f94bc...\nemail2@outlook.com|pw|M.C531...|9e5f94bc..."
+            "email1@outlook.com|Leodavinci123!\nAkses: email1@outlook.com|pw|M.C531...|9e5f94bc..."
           }
           className="am-textarea"
         />
