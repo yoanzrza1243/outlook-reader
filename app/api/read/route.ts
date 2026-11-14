@@ -18,9 +18,11 @@ export interface EmailMessageItem {
 
 function extractSixDigitOtp(text: string): string | null {
   if (!text) return null;
-  const clean = text.replace(/<[^>]+>/g, " ");
-  const match = clean.match(/(?<!\d)(\d{6})(?!\d)/);
-  return match ? match[1] : null;
+  const clean = text.replace(/<[^>]+>/g, " ").replace(/#[0-9a-fA-F]{6}/g, " ");
+  const matches = clean.match(/(?<!\d)(\d{6})(?!\d)/g);
+  if (!matches) return null;
+  const valid = matches.find((m) => m !== "000000" && !/^(\d)\1{5}$/.test(m));
+  return valid || null;
 }
 
 async function getMicrosoftAccessToken(
