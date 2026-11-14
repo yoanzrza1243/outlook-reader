@@ -125,7 +125,7 @@ export default function AdminPage() {
     setBatch((prev) => [...prev, ...newItems]);
     setManualInput("");
     showToast(
-      `${newItems.length} akun ditambahkan (${dupCount} duplikat diabaikan)`,
+      `${newItems.length} akun ditambahkan (${dupCount} duplikat diabaikan)`
     );
   };
 
@@ -140,16 +140,22 @@ export default function AdminPage() {
   };
 
   const removeItem = (emailAddr: string) => {
-    setBatch((prev) => {
-      const next = prev.filter((item) => item.email !== emailAddr);
-      if (next.length === 0) {
-        setStarted(false);
-        setActiveIndex(0);
-      } else if (activeIndex >= next.length) {
-        setActiveIndex(next.length - 1);
-      }
-      return next;
-    });
+    const targetIdx = batch.findIndex((item) => item.email === emailAddr);
+    if (targetIdx === -1) return;
+
+    const nextBatch = batch.filter((item) => item.email !== emailAddr);
+    setBatch(nextBatch);
+
+    if (nextBatch.length === 0) {
+      setStarted(false);
+      setActiveIndex(0);
+    } else if (targetIdx < activeIndex) {
+      setActiveIndex((prev) => Math.max(0, prev - 1));
+    } else if (activeIndex >= nextBatch.length) {
+      setActiveIndex(nextBatch.length - 1);
+    }
+
+    showToast(`Akun ${emailAddr} dihapus`);
   };
 
   const formatSellBlock = (item: ParsedOutlookAccount) => {
@@ -391,7 +397,9 @@ export default function AdminPage() {
               </button>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(formatSellBlock(activeAccount));
+                  navigator.clipboard.writeText(
+                    formatSellBlock(activeAccount)
+                  );
                   showToast("Format jual disalin!");
                 }}
                 className="am-btn-xs"
@@ -406,6 +414,13 @@ export default function AdminPage() {
                 className="am-btn-xs"
               >
                 Salin Akses
+              </button>
+              <button
+                onClick={() => removeItem(activeAccount.email)}
+                className="am-btn-xs am-btn-danger"
+                title="Hapus akun yang sedang aktif ini dari antrian"
+              >
+                🗑 Hapus Akun
               </button>
             </div>
 
