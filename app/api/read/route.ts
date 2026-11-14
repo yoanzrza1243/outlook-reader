@@ -156,6 +156,7 @@ async function fetchViaImapXoauth2(
           internalDate: true,
         })) {
           try {
+            if (!msg.source) continue;
             const parsed = await simpleParser(msg.source);
             const fromText =
               parsed.from?.text ||
