@@ -167,8 +167,15 @@ pre,
   color: var(--muted);
   margin-bottom: 12px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 8px;
+  line-height: 1.35;
+}
+
+.card-label span:first-child {
+  display: inline-block;
+  max-width: 65%;
 }
 
 .input-pill-wrap {
