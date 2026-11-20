@@ -1,4 +1,6 @@
 "use client";
+import TokenRenewer from "../components/TokenRenewer";
+
 import OutlookSplitter from "../components/OutlookSplitter";
 
 
@@ -582,6 +584,8 @@ export default function AdminPage() {
       {toast && <div className="toast-pill">{toast}</div>}
     
       <OutlookSplitter />
+    
+      <TokenRenewer />
     </main>
   );
 }
