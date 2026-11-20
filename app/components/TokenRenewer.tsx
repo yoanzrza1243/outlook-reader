@@ -22,7 +22,7 @@ export default function TokenRenewer() {
     for (const raw of lines) {
       const trimmed = raw.trim();
       if (!trimmed || !trimmed.includes("|") || !trimmed.includes("@")) continue;
-      const clean = trimmed.replace(/^\d+[\.\)]\s*/, "").trim();
+      const clean = trimmed.replace(/^\d+[\.\)]\s*/, "").replace(/^akses\s*:\s*/i, "").trim();
       const parts = clean.split("|").map((p) => p.trim());
       if (parts.length < 4) continue;
       parsed.push({
