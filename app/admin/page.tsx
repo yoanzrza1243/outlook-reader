@@ -1,4 +1,6 @@
 "use client";
+import OutlookSplitter from "../components/OutlookSplitter";
+
 
 import React, { useState, useEffect, useCallback } from "react";
 import {
@@ -578,6 +580,8 @@ export default function AdminPage() {
       )}
 
       {toast && <div className="toast-pill">{toast}</div>}
+    
+      <OutlookSplitter />
     </main>
   );
 }
